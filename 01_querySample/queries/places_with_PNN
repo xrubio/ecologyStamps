@@ -1,0 +1,1 @@
+select distinct ?pl_name where { ?x rdf:type :Amphora . ?x :hasFindingPlace ?y . ?y :fallsWithin ?fw . ?fw dcterms:title ?pl_name . ?x :carries ?z . ?z :isTranscribedBy ?u . ?u :hasTranscription ?t . FILTER regex(?t, ".*PNN.*", "i") }

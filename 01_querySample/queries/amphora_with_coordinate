@@ -1,0 +1,3 @@
+select ?amphId ?amphTypeName ?fplmunName ?fplcouName ?lat ?lon ?transcription where { ?amph rdf:type :Amphora . ?amph dcterms:identifier ?amphId . ?amph :hasAmphoricType ?amphType . ?amphType dcterms:title ?amphTypeName. ?amph :hasFindingPlace ?fpl . ?fpl :fallsWithin ?fplmun . ?fplmun rdf:type :Municipality . ?fplmun dcterms:title ?fplmunName . ?fplmun :hasLatitude ?lat . ?fplmun :hasLongitude ?lon . ?fpl :fallsWithin ?fplcou . ?fplcou rdf:type :ModernCountry . ?fplcou dcterms:title ?fplcouName . ?amph :carries ?sta . ?sta rdf:type :Stamp . ?sta :isTranscribedBy ?lingObj . ?lingObj :hasSimplifiedTranscription ?transcription . }
+
+
