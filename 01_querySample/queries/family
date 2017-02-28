@@ -28,6 +28,6 @@ where
 ?sta rdf:type :Stamp .
 ?sta :isTranscribedBy ?lingObj .  
 ?lingObj :hasSimplifiedTranscription ?transcription .
-?lingObj :hasFamily ?family .
+optional { ?lingObj :hasFamily ?family . }
 }
 
