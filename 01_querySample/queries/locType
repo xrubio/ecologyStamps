@@ -19,10 +19,8 @@ where
 ?fplmun :hasLatitude ?lat .
 ?fplmun :hasLongitude ?lon .
 
-optional {
 ?fpl :hasLocationType ?locType .
 ?locType dcterms:title ?locTypeName .
-}
 
 ?fpl :fallsWithin ?fplcou .
 #?fplcou rdf:type :ModernCountry .

@@ -52,7 +52,7 @@ def createOutput(queryResult, outputFileName, delimiter):
 
 def readQuery(queryFileName):
     with open (queryFileName, "r") as queryFile:
-        query = queryFile.read().replace('\n', '')
+        query = queryFile.read()
         return query
     return ''
 
