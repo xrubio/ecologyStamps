@@ -2,7 +2,7 @@
 
 import csv, numpy
 
-stampsFile = open("../04c_euclidean/stamps.csv", "r")
+stampsFile = open("../04_locations/familyDr.csv", "r")
 stamps = csv.reader(stampsFile, delimiter=';')
 
 # header
@@ -52,6 +52,6 @@ for i in range(len(listSites)):
         jaccard[i,j] = distance
 
 
-numpy.savetxt("jaccardDist.txt", jaccard, fmt='%.3f')
+numpy.savetxt("jaccardFamilyDr.txt", jaccard, fmt='%.3f')
 
 
