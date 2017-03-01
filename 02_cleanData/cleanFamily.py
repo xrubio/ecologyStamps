@@ -6,7 +6,7 @@ import re
 
 sep = ';'
 stamps = open("../01_querySample/stampsFamily.csv", "r")
-output = open("familyDR.csv", "w")
+output = open("family.csv", "w")
 output.write("id"+sep+"lat"+sep+"long"+sep+"type"+sep+"site"+sep+"code\n")
 
 listIds = list()
@@ -44,8 +44,8 @@ for stamp in stamps:
             continue
     
     # Attention! Only Dressel 20
-    if typeStamp != "Dressel 20":
-        continue
+#    if typeStamp != "Dressel 20":
+#        continue
 
 
     listIds.append(idStamp)

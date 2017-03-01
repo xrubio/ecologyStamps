@@ -13,19 +13,37 @@ def findId(xStamp, yStamp, listXs, listYs):
         listYs.append(yStamp)
     return listXs.index(xStamp)
 
-stampsFile = open('../03_stampsWithProvince/04_stampsDrTN/stampsDrTNOk.csv', 'r')
-stamps = csv.reader(stampsFile, delimiter=';')
+
+# all stamps    
+#stampsFile = open('../03_stampsWithProvince/output/all.csv', 'r')
+#locations = open("locations.csv", "w")
+#stampsId = open("all.csv", "w")
+
+# dressel 20
+# stampsFile = open('../03_stampsWithProvince/output/dr.csv', 'r')
+# locations = open("locationsDr.csv", "w")
+# stampsId = open("dr.csv", "w")
+
+# all stamps by family
+stampsFile = open('../03_stampsWithProvince/output/family.csv', 'r')
+locations = open("locationsFamily.csv", "w")
+stampsId = open("family.csv", "w")
+
+# all dressel 20 by family    
+#stampsFile = open('../03_stampsWithProvince/output/familyDr.csv', 'r')
+#locations = open("locFamilyDr.csv", "w")
+#stampsId = open("familyDr.csv", "w")
+
+
+locations.write("id;name;x;y;province\n")
+stampsId.write("id;name;x;y;code\n")
+
+stamps = csv.reader(stampsFile, delimiter=',')
 # header
 stamps.__next__()
 
 sites = list()
 
-
-locations = open("locationsDrTN.csv", "w")
-locations.write("id;name;x;y;province\n")
-
-stampsId = open("stampsDrTN.csv", "w")
-stampsId.write("id;name;x;y;code\n")
 
 listXs = list()
 listYs = list()
@@ -38,6 +56,9 @@ for stamp in stamps:
     site = stamp[6]
     code = stamp[7]
     province = stamp[8]
+
+    if not province:
+        continue
 
     idSite= findId(xStamp, yStamp, listXs, listYs)
     stampsId.write(str(idSite)+";"+site+";"+str(xStamp)+";"+str(yStamp)+";"+code+"\n")
