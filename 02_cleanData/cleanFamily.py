@@ -5,8 +5,8 @@ import re
 # this script removes everything except for lat, long and code. The code only has alphabetic characters and all of them are finally transformed to uppercase.
 
 sep = ';'
-stamps = open("../01_querySample/stampsSimple.csv", "r")
-output = open("stamps.csv", "w")
+stamps = open("../01_querySample/stampsFamily.csv", "r")
+output = open("familyDR.csv", "w")
 output.write("id"+sep+"lat"+sep+"long"+sep+"type"+sep+"site"+sep+"code\n")
 
 listIds = list()
@@ -22,7 +22,13 @@ for stamp in stamps:
     typeStamp = stampParsed[2]
     siteStamp = stampParsed[3]
 
-    code = stampParsed[7]
+    code = None
+    # if family
+    if len(stampParsed)==9:
+        code = stampParsed[8]
+    # else pick the base code        
+    else:
+        code = stampParsed[7]
     # transform to upper
     code = code.upper()
     # remove everything except for A-Z
@@ -38,8 +44,9 @@ for stamp in stamps:
             continue
     
     # Attention! Only Dressel 20
-#    if typeStamp != "Dressel 20":
-#     continue
+    if typeStamp != "Dressel 20":
+        continue
+
 
     listIds.append(idStamp)
     listStamps.append(codeCleaned)
