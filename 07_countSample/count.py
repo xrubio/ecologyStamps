@@ -2,7 +2,7 @@
 
 import sys,csv, math
 
-codesFile = open('../04c_euclidean/stampsBritannia.csv', 'r')
+codesFile = open('../04_locations/dr.csv', 'r')
 codes = csv.reader(codesFile, delimiter=';')
 # header
 codes.__next__()
@@ -24,7 +24,7 @@ for code in codes:
     if stamp not in listCodes[index]:
         listCodes[index].append(stamp)
 
-counts = open("countsBritannia.csv", "w")
+counts = open("countsDr.csv", "w")
 counts.write("idSite;numCodes\n")
 
 for i in range(len(sites)):
