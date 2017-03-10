@@ -45,6 +45,10 @@ def createOutput(queryResult, outputFileName, delimiter):
             else:
                 newEntry += delimiter
                 literalStr = literal.childNodes[0].data.encode('utf-8')
+                if not literalStr.lstrip('-').replace('.','',1).isdigit():
+                    literalStr = "\""+urllib.unquote(literalStr)+ "\""
+                #the unquote function allow to escape eventual " in the string
+                #the lstrip('-').replace('.','',1).isdigit() to check if it's a float, cf:http://stackoverflow.com/a/23639915/3012441 
                 newEntry += literalStr
         if newEntry:            
             outputFile.write(newEntry+'\n')
