@@ -29,7 +29,16 @@ def executeQuery(sparql, verbose):
 def createOutput(queryResult, outputFileName, delimiter):
 
     outputFile = open(outputFileName, 'w')
-    # TODO write header
+
+    headQuery=queryResult.getElementsByTagName('head')[0]
+    numVar = len(headQuery.getElementsByTagName('variable'))
+    print('total variable requested:',numVar)
+
+    header="idreq"
+    for col in headQuery.getElementsByTagName('variable') :
+        header += delimiter + col.getAttribute('name')
+
+    outputFile.write(header+'\n')
 
     numResults = len(queryResult.getElementsByTagName('result'))
     print('total results:',numResults)
