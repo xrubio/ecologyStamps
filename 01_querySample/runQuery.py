@@ -77,7 +77,7 @@ def main():
     parser.add_argument("-d", "--delimiter", help="delimiter between fields", default=";")
     parser.add_argument("-qf", "--queryFile", help="file with query")
     parser.add_argument("-q", "--query", help="direct query")
-    parser.add_argument("-r", "--result", help='parse result from already executed query', default=None)
+    parser.add_argument("-r", "--result", help='parse result from already executed query stored into an XML file', default=None)
     parser.add_argument("-v", "--verbose", help="verbose actions", default=False)
     
     args = parser.parse_args()
