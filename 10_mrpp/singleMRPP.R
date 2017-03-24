@@ -5,13 +5,16 @@ library(vegan)
 library(gridExtra)
 library(ggdendro)
 library(plyr)
-
+library(scales)
+library(RColorBrewer)
 
 # all stamps
-minCodes <- 10
-presence <- read.csv("../09_presence/presenceTN.csv", header=T, sep=';')
-counts <- read.csv("../07_countSample/countsTN.csv", header=T, sep=";")
-locations <- read.csv("../04c_euclidean/locationsTN.csv", header=T, sep=";")
+minCodes <- 6
+
+presence <- read.csv("../09_presence/presenceFamily.csv", header=T, sep=';')
+counts <- read.csv("../07_countSample/countsFamily.csv", header=T, sep=";")
+locations <- read.csv("../04_locations/locationsFamily.csv", header=T, sep=";")
+
 counts$province <- locations$province
 countsWithProvince <-  subset(counts, province != '')
 
@@ -26,6 +29,22 @@ presenceSample <- subset(presence, site %in% sitesSample$idSite)
 presenceSample <- presenceSample[,-1]
 # remove code if no site has the code    
 presenceSample <- presenceSample[,colSums(presenceSample) != 0]
+
+
+# plot diversity of stamps per site
+numProvinces <- length(unique(sitesSample$province))
+cols <- colorRampPalette(brewer.pal(12, "Set3"))
+myPalette <- cols(numProvinces)
+
+
+# mean codes per site based on province
+#tapply(sitesSample$numCodes, sitesSample$province, FUN=mean)
+
+svg("stampsPerProvince.svg", width=8, height=10)    
+ggplot(sitesSample, aes(y=reorder(province, numCodes), x=numCodes, fill=province)) + geom_jitter(col="grey50", alpha=0.5, shape=21, height=0.2, width=0.3, size=3) + scale_colour_manual(values=myPalette) + theme_bw() + theme(legend.position="None")
+dev.off()
+
+
 
 # distribution of stamps in sites of provinces
 #ggplot(sitesSample, aes(x=province, y=numCodes)) + geom_jitter()
@@ -43,7 +62,9 @@ MrppDF <- data.frame(numSites=codeMrpp$n, distance=codeMrpp$classdelta, province
 MrppDF <- subset(MrppDF, !is.na(distance))
 
 
-ggplot(MrppDF, aes(x=reorder(province, distance), y=distance, size=numSites)) + geom_point() + geom_hline(yintercept=codeMrpp$delta, col="red") + scale_y_continuous(limits=c(0,1)) + theme_bw()
+svg("distanceGroups.svg", width=8, height=7)    
+ggplot(MrppDF, aes(y=reorder(province, -distance), x=distance, size=numSites)) + geom_point(col="skyblue3") + geom_vline(xintercept=codeMrpp$delta, col="indianred2") + scale_x_continuous(limits=c(0.85,1)) + theme_bw() + annotate("label", label="mean group distance", x=0.97, y=13.2, colour="white", fill="indianred2", fontface="bold") + theme(legend.position="bottom")
+dev.off()
 
 
 # aquest plot va be per mirar les P que les permutacions aleatories generin clusters mes agrupats que no pas el resultat
@@ -74,19 +95,40 @@ summary(codes.md)
 
 codeCluster <- hclust(as.dist(codes.md), method="average")
 ggdendrogram(codeCluster)
+
+pdf("dendro.pdf")
+plot(codeCluster)
+dev.off()    
+
+
+svg("links.svg", width=10, height=8)    
 plot(codes.md)
+dev.off()
+
 plot(codeCluster)
 #dendroCluster <- as.dendrogram(codeCluster)
 #dCodes <- dendro_data(dendroCluster, type = "rectangle")
 #ggplot(segment(dCodes)) + geom_segment(aes(x = x, y = y, xend = xend, yend = yend)) +  coord_flip() +  scale_y_reverse(expand = c(0.2, 0))
 
 
-pdf("linksTN.pdf", width=15, height=10)   
+pdf("linksFamily.pdf", width=15, height=10)   
     
 plot(codes.md)
 
 dev.off()
 
+
 foo <- melt(codes.md)
-ggplot(foo, aes(x=Var1, y=Var2, fill=value, label=round(value,2))) + geom_raster() + geom_text()
+# paint distance matrix as quantiles to avoid linear palette colors
+qn = quantile(foo$value, c(0.01, 0.99), na.rm = TRUE)
+qn01 <- rescale(c(qn, range(foo$value)))
+
+foo$Var2 <- with(foo,factor(Var2,levels = rev(sort(unique(Var2)))))
+
+#svg("distances.svg", width=17, height=9)    
+pdf("distances.pdf", width=17, height=9)    
+ggplot(foo, aes(x=Var1, y=Var2, fill=value, label=round(value,2))) + geom_raster() + geom_text(col="grey90", fontface="bold")  + theme_bw()+ scale_fill_gradientn(colours=c("indianred2", "skyblue3", "grey60"), values = c(0, seq(qn01[1], qn01[2], length.out = 18), 1)) + theme(panel.border=element_blank(), legend.position="none", axis.ticks.y=element_blank(), axis.ticks.x=element_blank()) + xlab("") + ylab("") + scale_x_discrete(position="top")
+dev.off()
+
+ggplot(MrppDF, aes(y=reorder(province, -distance), x=distance, size=numSites)) + geom_point(col="skyblue3") + geom_vline(xintercept=codeMrpp$delta, col="indianred2") + scale_x_continuous(limits=c(0.85,1)) + theme_bw() + annotate("label", label="mean group distance", x=0.97, y=13.2, colour="white", fill="indianred2", fontface="bold") + theme(legend.position="bottom")
 

@@ -1471,6 +1471,12 @@
       </conditionalstyles>
     </maplayer>
     <maplayer simplifyAlgorithm="0" minimumScale="0" maximumScale="1e+08" simplifyDrawingHints="1" readOnly="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" geometry="Point" simplifyMaxScale="1" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+      <extent>
+        <xmin>-9.13550662994384766</xmin>
+        <ymin>31.21564499999999853</ymin>
+        <xmax>36.15722499999999684</xmax>
+        <ymax>56.41666699999999679</ymax>
+      </extent>
       <id>provinceDr_shp20170301160455571</id>
       <datasource>./02_stampsDr/provinceDr.shp</datasource>
       <keywordList>
@@ -1619,6 +1625,12 @@
       </conditionalstyles>
     </maplayer>
     <maplayer simplifyAlgorithm="0" minimumScale="0" maximumScale="1e+08" simplifyDrawingHints="1" readOnly="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" geometry="Point" simplifyMaxScale="1" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+      <extent>
+        <xmin>-9.13550662994384766</xmin>
+        <ymin>31.21564499999999853</ymin>
+        <xmax>36.15722499999999684</xmax>
+        <ymax>56.41666699999999679</ymax>
+      </extent>
       <id>provinceFamilyDr_shp20170301161114316</id>
       <datasource>./04_familyDr/provinceFamilyDr.shp</datasource>
       <keywordList>
@@ -1767,6 +1779,12 @@
       </conditionalstyles>
     </maplayer>
     <maplayer simplifyAlgorithm="0" minimumScale="0" maximumScale="1e+08" simplifyDrawingHints="1" readOnly="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" geometry="Point" simplifyMaxScale="1" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+      <extent>
+        <xmin>-13.92825700000000033</xmin>
+        <ymin>16.93833300000000008</ymin>
+        <xmax>77.68329699999999605</xmax>
+        <ymax>59.76666699999999821</ymax>
+      </extent>
       <id>provinceFamily_shp20170301160331666</id>
       <datasource>./03_family/provinceFamily.shp</datasource>
       <keywordList>

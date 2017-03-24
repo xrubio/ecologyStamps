@@ -25,10 +25,26 @@ getMrpp <- function(countsWithProvince, presence,minCodes)
 #    print(codeMrpp)
     return (c(codeMrpp$delta, codeMrpp$A, codeMrpp$Pvalue, nrow(sitesSample)))
 }
+# all
+#presence <- read.csv("../09_presence/presenceAll.csv", header=T, sep=';')
+#counts <- read.csv("../07_countSample/countsAll.csv", header=T, sep=";")
+#locations <- read.csv("../04_locations/locations.csv", header=T, sep=";")
 
-presence <- read.csv("../09_presence/presenceDrTN.csv", header=T, sep=';')
-counts <- read.csv("../07_countSample/countsDrTN.csv", header=T, sep=";")
-locations <- read.csv("../04c_euclidean/locationsDrTN.csv", header=T, sep=";")
+# dr 20
+#presence <- read.csv("../09_presence/presenceDr.csv", header=T, sep=';')
+#counts <- read.csv("../07_countSample/countsDr.csv", header=T, sep=";")
+#locations <- read.csv("../04_locations/locationsDr.csv", header=T, sep=";")
+
+# family
+presence <- read.csv("../09_presence/presenceFamily.csv", header=T, sep=';')
+counts <- read.csv("../07_countSample/countsFamily.csv", header=T, sep=";")
+locations <- read.csv("../04_locations/locationsFamily.csv", header=T, sep=";")
+
+# family Dr.20
+#presence <- read.csv("../09_presence/presenceFamilyDr.csv", header=T, sep=';')
+#counts <- read.csv("../07_countSample/countsFamilyDr.csv", header=T, sep=";")
+#locations <- read.csv("../04_locations/locationsFamilyDr.csv", header=T, sep=";")
+
 counts$province <- locations$province
 countsWithProvince <-  subset(counts, province != '')
 
@@ -47,12 +63,13 @@ mrppValuesBelowP[which.max(mrppValuesBelowP$effect),]
 
 
 # multi MRPP results
-g1 <- ggplot(mrppValues, aes(x=minCodesPerSite, y=numSites)) + geom_line() + ggtitle("number of sites per threshold value")
-g2 <- ggplot(mrppValues, aes(x=minCodesPerSite, y=delta)) + geom_line() + ggtitle("delta") + scale_y_continuous(limits=c(0,1))
-g3 <- ggplot(mrppValues, aes(x=minCodesPerSite, y=effect)) + geom_line() + ggtitle("effect size")
-g4 <- ggplot(mrppValues, aes(x=minCodesPerSite, y=pvalue)) + geom_line() + ggtitle("p-value") + scale_y_continuous(limits=c(0,1))
+g1 <- ggplot(mrppValues, aes(x=minCodesPerSite, y=numSites)) + geom_line(size=1, col="goldenrod1") + xlab("") + ylab("number of sites") +  annotate("label", label="sample size", x=95, y=500, colour="white", fill="goldenrod1", fontface="bold") + theme_bw()
+g2 <- ggplot(mrppValues, aes(x=minCodesPerSite, y=delta)) + geom_line(size=1, col="indianred2")  + xlab("") + ylab("delta") + annotate("label", label="mean group distance", x=90, y=0.1, colour="white", fill="indianred2", fontface="bold") + theme_bw() + scale_y_continuous(limits=c(0,1))
+g3 <- ggplot(mrppValues, aes(x=minCodesPerSite, y=effect)) + geom_line(size=1, col="palegreen4") + xlab("") + ylab("distance means") + annotate("label", label="effect", x=95, y=0.003, colour="white", fill="palegreen4", fontface="bold") + theme_bw()
+g4 <- ggplot(mrppValues, aes(x=minCodesPerSite, y=pvalue)) + geom_line(size=1, col="skyblue3") + xlab("n. stamps (threshold)") + ylab("p-value")+ annotate("label", label="significance", x=95, y=0.6, colour="white", fill="skyblue3", fontface="bold") + geom_hline(yintercept=0.05, col="grey50", size=1, linetype="twodash") +  theme_bw() + scale_y_continuous(limits=c(0,1))
 
-pdf("multiMprrDrTN.pdf", width=10, height=10)
-grid.arrange(g1,g2,g3,g4,ncol=2)
+#svg("multiMprrFamily.svg", width=10, height=10)
+pdf("multiMprrFamily.pdf", width=10, height=10)
+grid.arrange(g1,g2,g3,g4,ncol=1, top="MRPP for all stamps")
 dev.off()
 

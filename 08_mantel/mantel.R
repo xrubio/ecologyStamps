@@ -17,28 +17,28 @@ getMantel <- function( jaccardDist, euclidDist, counts, minCodes)
 }
 
 # all stamps
-#euclidDist <- as.matrix(read.table("../05b_distEuclidean/geoCost.txt"))
-#jaccardDist <- as.matrix(read.table("../06_jaccard/jaccardDist.txt"))
-#locations <- read.csv("../04c_euclidean/locations.csv", header=T, sep=";")
-#counts <- read.csv("../07_countSample/counts.csv", header=T, sep=";")
+#euclidDist <- as.matrix(read.table("../05_euclidean/geoCostAll.txt"))
+#jaccardDist <- as.matrix(read.table("../06_jaccard/jaccardAll.txt"))
+#locations <- read.csv("../04_locations/locations.csv", header=T, sep=";")
+#counts <- read.csv("../07_countSample/countsAll.csv", header=T, sep=";")
 
 # Dressel 20
-euclidDist <- as.matrix(read.table("../05b_distEuclidean/geoCostDr.txt"))
-jaccardDist <- as.matrix(read.table("../06_jaccard/jaccardDistDr.txt"))
-locations <- read.csv("../04c_euclidean/locationsDr.csv", header=T, sep=";")
-counts <- read.csv("../07_countSample/countsDr.csv", header=T, sep=";")
+#euclidDist <- as.matrix(read.table("../05_euclidean/geoCostDr.txt"))
+#jaccardDist <- as.matrix(read.table("../06_jaccard/jaccardDr.txt"))
+#locations <- read.csv("../04_locations/locationsDr.csv", header=T, sep=";")
+#counts <- read.csv("../07_countSample/countsDr.csv", header=T, sep=";")
 
-# Tria Nomina 
-#euclidDist <- as.matrix(read.table("../05b_distEuclidean/geoCostTN.txt"))
-#jaccardDist <- as.matrix(read.table("../06_jaccard/jaccardDistTN.txt"))
-#locations <- read.csv("../04c_euclidean/locationsTN.csv", header=T, sep=";")
-#counts <- read.csv("../07_countSample/countsTN.csv", header=T, sep=";")
+# family
+#euclidDist <- as.matrix(read.table("../05_euclidean/geoCostFamily.txt"))
+#jaccardDist <- as.matrix(read.table("../06_jaccard/jaccardFamily.txt"))
+#locations <- read.csv("../04_locations/locationsFamily.csv", header=T, sep=";")
+#counts <- read.csv("../07_countSample/countsFamily.csv", header=T, sep=";")
 
-# Tria Nomina AND Dressel 20
-#euclidDist <- as.matrix(read.table("../05b_distEuclidean/geoCostDrTN.txt"))
-#jaccardDist <- as.matrix(read.table("../06_jaccard/jaccardDistDrTN.txt"))
-#locations <- read.csv("../04c_euclidean/locationsDrTN.csv", header=T, sep=";")
-#counts <- read.csv("../07_countSample/countsDrTN.csv", header=T, sep=";")
+# family Dressel 20
+euclidDist <- as.matrix(read.table("../05_euclidean/geoCostFamilyDr.txt"))
+jaccardDist <- as.matrix(read.table("../06_jaccard/jaccardFamilyDr.txt"))
+locations <- read.csv("../04_locations/locationsFamilyDr.csv", header=T, sep=";")
+counts <- read.csv("../07_countSample/countsFamilyDr.csv", header=T, sep=";")
 
 counts$province <- locations$province 
 
@@ -67,12 +67,12 @@ for( i in 1:100)
 #ggplot(counts, aes(x =reorder(factor(idSite), -numCodes), y=numCodes)) + geom_bar(stat='identity')
 
 # mantel results
-g1 <- ggplot(mantelValues, aes(x=numCodes, y=numSites)) + geom_line() + ggtitle("number of sites per threshold value")
-g2 <- ggplot(mantelValues, aes(x=numCodes, y=value)) + geom_line() + ggtitle("spatial autocorrelation value")
-g3 <- ggplot(mantelValues, aes(x=numCodes, y=significance)) + geom_line() + ggtitle("p-value")
+g1 <- ggplot(mantelValues, aes(x=numCodes, y=numSites)) + geom_line(size=1, col="goldenrod1") + xlab("") + ylab("number of sites") +  annotate("label", label="sample size", x=95, y=100, colour="white", fill="goldenrod1", fontface="bold") + theme_bw()
+g2 <- ggplot(mantelValues, aes(x=numCodes, y=value)) + geom_line(size=1, col="indianred2") + xlab("") + ylab("Mantel statistic r") + annotate("label", label="correlation", x=95, y=0.05, colour="white", fill="indianred2", fontface="bold")+ theme_bw()
+g3 <- ggplot(mantelValues, aes(x=numCodes, y=significance)) + geom_line(size=1, col="skyblue3") + xlab("n. stamps (threshold)") + ylab("p-value")+ annotate("label", label="significance", x=95, y=0.01, colour="white", fill="skyblue3", fontface="bold") + geom_hline(yintercept=0.05, col="grey50", size=1, linetype="twodash") +  theme_bw() 
 
-pdf("mantel.pdf")
-grid.arrange(g1,g2,g3)
+svg("mantelFamilyDr.svg", width=12, height=9)
+grid.arrange(g1,g2,g3, top="Mantel test for family Dressel 20")
 dev.off()
 
 

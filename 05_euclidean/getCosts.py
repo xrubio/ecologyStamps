@@ -11,7 +11,7 @@ def getCost(i, j, listXs, listYs):
     dist = math.sqrt(math.pow(listXs[i]-listXs[j],2)+math.pow(listYs[i]-listYs[j],2))
     return dist 
 
-locationsFile = open("../04_locations/locationsDr.csv", "r")
+locationsFile = open("../04_locations/locationsFamily.csv", "r")
 locationsCSV = csv.reader(locationsFile,delimiter=";")
 locationsCSV.__next__()
 
@@ -45,5 +45,5 @@ for i in range(len(locations)):
         costs[i,j] = cost
 
 print(costs)    
-numpy.savetxt("geoCostDr.txt", costs, fmt='%.3f')
+numpy.savetxt("geoCostFamily.txt", costs, fmt='%.3f')
 
