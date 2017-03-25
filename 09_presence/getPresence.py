@@ -2,7 +2,7 @@
 
 import csv, numpy
 
-stampsFile = open("../04_locations/dr.csv", "r")
+stampsFile = open("../04_locations/family.csv", "r")
 stamps = csv.reader(stampsFile, delimiter=';')
 
 # header
@@ -41,7 +41,7 @@ for stamp in stamps:
 
 print("num sites:",len(listSites))
 
-output = open("presenceDr.csv","w")
+output = open("presenceFamily.csv","w")
 
 # header
 headerStr = "site"

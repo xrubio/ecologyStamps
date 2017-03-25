@@ -37,8 +37,8 @@ getMantel <- function( jaccardDist, euclidDist, counts, minCodes)
 # family Dressel 20
 euclidDist <- as.matrix(read.table("../05_euclidean/geoCostFamilyDr.txt"))
 jaccardDist <- as.matrix(read.table("../06_jaccard/jaccardFamilyDr.txt"))
-locations <- read.csv("../04_locations/locationsFamilyDr.csv", header=T, sep=";")
-counts <- read.csv("../07_countSample/countsFamilyDr.csv", header=T, sep=";")
+locations <- read.csv("../04_locations/locationsFamily.csv", header=T, sep=";")
+counts <- read.csv("../07_countSample/countsFamily.csv", header=T, sep=";")
 
 counts$province <- locations$province 
 
@@ -72,7 +72,7 @@ g2 <- ggplot(mantelValues, aes(x=numCodes, y=value)) + geom_line(size=1, col="in
 g3 <- ggplot(mantelValues, aes(x=numCodes, y=significance)) + geom_line(size=1, col="skyblue3") + xlab("n. stamps (threshold)") + ylab("p-value")+ annotate("label", label="significance", x=95, y=0.01, colour="white", fill="skyblue3", fontface="bold") + geom_hline(yintercept=0.05, col="grey50", size=1, linetype="twodash") +  theme_bw() 
 
 svg("mantelFamilyDr.svg", width=12, height=9)
-grid.arrange(g1,g2,g3, top="Mantel test for family Dressel 20")
+grid.arrange(g1,g2,g3, top="Mantel test for family stamps")
 dev.off()
 
 

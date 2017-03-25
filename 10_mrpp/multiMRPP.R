@@ -4,6 +4,7 @@ library(ggplot2)
 library(vegan)
 library(gridExtra)
 library(ggdendro)
+library(plyr)
 
 getMrpp <- function(countsWithProvince, presence,minCodes)
 {
