@@ -29,7 +29,16 @@ def executeQuery(sparql, verbose):
 def createOutput(queryResult, outputFileName, delimiter):
 
     outputFile = open(outputFileName, 'w')
-    # TODO write header
+
+    headQuery=queryResult.getElementsByTagName('head')[0]
+    numVar = len(headQuery.getElementsByTagName('variable'))
+    print('total variable requested:',numVar)
+
+    header="idreq"
+    for col in headQuery.getElementsByTagName('variable') :
+        header += delimiter + col.getAttribute('name')
+
+    outputFile.write(header+'\n')
 
     numResults = len(queryResult.getElementsByTagName('result'))
     print('total results:',numResults)
@@ -45,6 +54,10 @@ def createOutput(queryResult, outputFileName, delimiter):
             else:
                 newEntry += delimiter
                 literalStr = literal.childNodes[0].data.encode('utf-8')
+                if not literalStr.lstrip('-').replace('.','',1).isdigit():
+                    literalStr = "\""+urllib.unquote(literalStr)+ "\""
+                #the unquote function allow to escape eventual " in the string
+                #the lstrip('-').replace('.','',1).isdigit() to check if it's a float, cf:http://stackoverflow.com/a/23639915/3012441 
                 newEntry += literalStr
         if newEntry:            
             outputFile.write(newEntry+'\n')
@@ -64,7 +77,7 @@ def main():
     parser.add_argument("-d", "--delimiter", help="delimiter between fields", default=";")
     parser.add_argument("-qf", "--queryFile", help="file with query")
     parser.add_argument("-q", "--query", help="direct query")
-    parser.add_argument("-r", "--result", help='parse result from already executed query', default=None)
+    parser.add_argument("-r", "--result", help='parse result from already executed query stored into an XML file', default=None)
     parser.add_argument("-v", "--verbose", help="verbose actions", default=False)
     
     args = parser.parse_args()
