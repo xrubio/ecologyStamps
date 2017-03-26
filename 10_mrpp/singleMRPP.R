@@ -9,7 +9,7 @@ library(scales)
 library(RColorBrewer)
 
 # all stamps
-minCodes <- 1
+minCodes <- 25
 
 presence <- read.csv("../09_presence/presenceFamily.csv", header=T, sep=';')
 counts <- read.csv("../07_countSample/countsFamily.csv", header=T, sep=";")
@@ -125,10 +125,19 @@ qn01 <- rescale(c(qn, range(foo$value)))
 
 foo$Var2 <- with(foo,factor(Var2,levels = rev(sort(unique(Var2)))))
 
-#svg("distances.svg", width=17, height=9)    
-pdf("distances.pdf", width=17, height=9)    
+svg("dist2.svg", width=17, height=10)    
+#pdf("distances.pdf", width=17, height=9)    
 ggplot(foo, aes(x=Var1, y=Var2, fill=value, label=round(value,2))) + geom_raster() + geom_text(col="grey90", fontface="bold")  + theme_bw()+ scale_fill_gradientn(colours=c("indianred2", "skyblue3", "grey60"), values = c(0, seq(qn01[1], qn01[2], length.out = 18), 1)) + theme(panel.border=element_blank(), legend.position="none", axis.ticks.y=element_blank(), axis.ticks.x=element_blank()) + xlab("") + ylab("") + scale_x_discrete(position="top")
 dev.off()
+MrppDF$province2 <- with(MrppDF,factor(province,levels = rev(sort(unique(province)))))
 
-ggplot(MrppDF, aes(y=reorder(province, -distance), x=distance, size=numSites)) + geom_point(col="skyblue3") + geom_vline(xintercept=codeMrpp$delta, col="indianred2") + scale_x_continuous(limits=c(0.85,1)) + theme_bw() + annotate("label", label="mean group distance", x=0.97, y=13.2, colour="white", fill="indianred2", fontface="bold") + theme(legend.position="bottom")
+#a2 <- ggplot(MrppDF, aes(y=province2, x=distance, size=numSites)) + geom_point(col="skyblue3") + geom_vline(xintercept=codeMrpp$delta, col="indianred2") + scale_x_continuous(limits=c(0.85,1)) + theme_bw() + annotate("label", label="mean group distance", x=0.96, y=13.2, colour="white", fill="indianred2", fontface="bold") + theme(legend.position="top") + ylab("")
+
+
+svg("dist1.svg", width=3, height=10)
+ggplot(MrppDF, aes(x=province2, y=numSites)) + geom_bar(stat="identity", fill="skyblue3") + theme_bw() + coord_flip() + xlab("") + ylab("") + ggtitle("num. sites") + scale_y_reverse() + theme(axis.ticks.y=element_blank(), axis.text.y=element_blank())
+dev.off()
+
+
+grid.arrange(a2,a1, layout_matrix = rbind(c(1,2,2,2)))
 

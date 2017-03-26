@@ -79,9 +79,16 @@ g4 <- ggplot(mrppValues, aes(x=minCodesPerSite, y=pvalue)) + geom_line(size=1, c
 # power
 #g5 <- ggplot(mrppValues, aes(x=minCodesPerSite, y=power)) + geom_line(size=1, col="skyblue3") + xlab("n. stamps (threshold)") + ylab("p-value")+ annotate("label", label="power", x=95, y=0.6, colour="white", fill="skyblue3", fontface="bold") + geom_hline(yintercept=0.05, col="grey50", size=1, linetype="twodash") +  theme_bw() + scale_y_continuous(limits=c(0,1))
 
-#svg("multiMprrFamily.svg", width=10, height=10)
-pdf("multiMprrFamily.pdf", width=10, height=10)
+svg("multiMprrFamily.svg", width=10, height=5)
+#pdf("multiMprrFamily.pdf", width=10, height=5)
 grid.arrange(g1,g2,g3,g4,ncol=1, top="MRPP for all stamps")
+dev.off()
+
+# simplified
+s1 <- ggplot(mrppValues, aes(x=minCodesPerSite, y=numSites)) + geom_line(size=1, col="skyblue3") + xlab("") + ylab("number of sites") +  annotate("label", label="sample size", x=95, y=500, colour="white", fill="skyblue3", fontface="bold") + theme_bw()
+s2 <- ggplot(mrppValues, aes(x=minCodesPerSite, y=effect)) + geom_line(size=1, col="indianred2") + xlab("n. stamps (threshold)") + ylab("distance means") + annotate("label", label="effect", x=95, y=0.008, colour="white", fill="indianred2", fontface="bold") + theme_bw()
+svg("simpleMprrFamily.svg", width=10, height=5)
+grid.arrange(s1,s2,ncol=1, top="Threshold of stamps found on each site")
 dev.off()
 
 
