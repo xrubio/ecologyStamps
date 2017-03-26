@@ -5,6 +5,7 @@ library(vegan)
 library(gridExtra)
 library(ggdendro)
 library(plyr)
+library(pwr)
 
 getMrpp <- function(countsWithProvince, presence,minCodes)
 {
@@ -50,11 +51,17 @@ counts$province <- locations$province
 countsWithProvince <-  subset(counts, province != '')
 
 
-mrppValues <- data.frame(delta=double(), effect=double(), pvalue=double(), minCodesPerSite=integer(), numSites=integer())
+mrppValues <- data.frame(delta=double(), effect=double(), pvalue=double(), minCodesPerSite=integer(), numSites=integer(), power=numeric())
 for(i in 1:100)
 {
     results <- getMrpp(countsWithProvince, presence, i)
-    mrppValues<- rbind(mrppValues, data.frame(delta=results[1], effect=results[2], pvalue=results[3], minCodesPerSite=i, numSites=results[4]))
+
+    # statistical power computation
+    sites <- subset(countsWithProvince, numCodes >= i)
+    numProvinces = length(unique(sites$province))
+    meanSitesPerProvince = mean(count(sites$province)$freq)
+    power = pwr.anova.test(k=numProvinces, n=meanSitesPerProvince, f=results[2], sig.level=results[3])$power 
+    mrppValues<- rbind(mrppValues, data.frame(delta=results[1], effect=results[2], pvalue=results[3], minCodesPerSite=i, numSites=results[4], power=power))
 }
 
 # print best value
@@ -69,8 +76,13 @@ g2 <- ggplot(mrppValues, aes(x=minCodesPerSite, y=delta)) + geom_line(size=1, co
 g3 <- ggplot(mrppValues, aes(x=minCodesPerSite, y=effect)) + geom_line(size=1, col="palegreen4") + xlab("") + ylab("distance means") + annotate("label", label="effect", x=95, y=0.003, colour="white", fill="palegreen4", fontface="bold") + theme_bw()
 g4 <- ggplot(mrppValues, aes(x=minCodesPerSite, y=pvalue)) + geom_line(size=1, col="skyblue3") + xlab("n. stamps (threshold)") + ylab("p-value")+ annotate("label", label="significance", x=95, y=0.6, colour="white", fill="skyblue3", fontface="bold") + geom_hline(yintercept=0.05, col="grey50", size=1, linetype="twodash") +  theme_bw() + scale_y_continuous(limits=c(0,1))
 
+# power
+#g5 <- ggplot(mrppValues, aes(x=minCodesPerSite, y=power)) + geom_line(size=1, col="skyblue3") + xlab("n. stamps (threshold)") + ylab("p-value")+ annotate("label", label="power", x=95, y=0.6, colour="white", fill="skyblue3", fontface="bold") + geom_hline(yintercept=0.05, col="grey50", size=1, linetype="twodash") +  theme_bw() + scale_y_continuous(limits=c(0,1))
+
 #svg("multiMprrFamily.svg", width=10, height=10)
 pdf("multiMprrFamily.pdf", width=10, height=10)
 grid.arrange(g1,g2,g3,g4,ncol=1, top="MRPP for all stamps")
 dev.off()
+
+
 

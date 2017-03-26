@@ -9,7 +9,7 @@ library(scales)
 library(RColorBrewer)
 
 # all stamps
-minCodes <- 6
+minCodes <- 1
 
 presence <- read.csv("../09_presence/presenceFamily.csv", header=T, sep=';')
 counts <- read.csv("../07_countSample/countsFamily.csv", header=T, sep=";")
@@ -41,7 +41,7 @@ myPalette <- cols(numProvinces)
 #tapply(sitesSample$numCodes, sitesSample$province, FUN=mean)
 
 svg("stampsPerProvince.svg", width=8, height=10)    
-ggplot(sitesSample, aes(y=reorder(province, numCodes), x=numCodes, fill=province)) + geom_jitter(col="grey50", alpha=0.5, shape=21, height=0.2, width=0.3, size=3) + scale_colour_manual(values=myPalette) + theme_bw() + theme(legend.position="None")
+ggplot(sitesSample, aes(y=reorder(province, numCodes), x=numCodes, fill=province)) + geom_jitter(col="grey50", alpha=0.5, shape=21, height=0.2, width=0.3, size=3) + scale_colour_manual(values=myPalette) + theme_bw() + theme(legend.position="None") + xlab("number of codes") + ylab("province distribution")
 dev.off()
 
 
