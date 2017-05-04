@@ -25,14 +25,14 @@ def findId(xStamp, yStamp, listXs, listYs):
 # stampsId = open("dr.csv", "w")
 
 # all stamps by family
-stampsFile = open('../03_stampsWithProvince/output/family.csv', 'r')
-locations = open("locationsFamily.csv", "w")
-stampsId = open("family.csv", "w")
+#stampsFile = open('../03_stampsWithProvince/output/family.csv', 'r')
+#locations = open("locationsFamily.csv", "w")
+#stampsId = open("family.csv", "w")
 
 # all dressel 20 by family    
-#stampsFile = open('../03_stampsWithProvince/output/familyDr.csv', 'r')
-#locations = open("locFamilyDr.csv", "w")
-#stampsId = open("familyDr.csv", "w")
+stampsFile = open('../03_stampsWithProvince/output/familyDr.csv', 'r')
+locations = open("locationsFamilyDr.csv", "w")
+stampsId = open("familyDr.csv", "w")
 
 
 locations.write("id;name;x;y;province\n")

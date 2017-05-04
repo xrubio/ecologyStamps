@@ -3,7 +3,6 @@ library(reshape2)
 library(ggplot2)
 library(vegan)
 library(gridExtra)
-library(ggdendro)
 library(plyr)
 library(pwr)
 
@@ -38,14 +37,14 @@ getMrpp <- function(countsWithProvince, presence,minCodes)
 #locations <- read.csv("../04_locations/locationsDr.csv", header=T, sep=";")
 
 # family
-presence <- read.csv("../09_presence/presenceFamily.csv", header=T, sep=';')
-counts <- read.csv("../07_countSample/countsFamily.csv", header=T, sep=";")
-locations <- read.csv("../04_locations/locationsFamily.csv", header=T, sep=";")
+#presence <- read.csv("../09_presence/presenceFamily.csv", header=T, sep=';')
+#counts <- read.csv("../07_countSample/countsFamily.csv", header=T, sep=";")
+#locations <- read.csv("../04_locations/locationsFamily.csv", header=T, sep=";")
 
 # family Dr.20
-#presence <- read.csv("../09_presence/presenceFamilyDr.csv", header=T, sep=';')
-#counts <- read.csv("../07_countSample/countsFamilyDr.csv", header=T, sep=";")
-#locations <- read.csv("../04_locations/locationsFamilyDr.csv", header=T, sep=";")
+presence <- read.csv("../09_presence/presenceFamilyDr.csv", header=T, sep=';')
+counts <- read.csv("../07_countSample/countsFamilyDr.csv", header=T, sep=";")
+locations <- read.csv("../04_locations/locationsFamilyDr.csv", header=T, sep=";")
 
 counts$province <- locations$province
 countsWithProvince <-  subset(counts, province != '')
@@ -82,6 +81,19 @@ g4 <- ggplot(mrppValues, aes(x=minCodesPerSite, y=pvalue)) + geom_line(size=1, c
 svg("multiMprrFamily.svg", width=10, height=5)
 #pdf("multiMprrFamily.pdf", width=10, height=5)
 grid.arrange(g1,g2,g3,g4,ncol=1, top="MRPP for all stamps")
+
+dev.off()
+
+
+#################### instrumenta
+
+
+i1 <- ggplot(mrppValues, aes(x=minCodesPerSite, y=numSites)) + geom_line(size=1, col="grey50") + xlab("") + ylab("n. de yacimientos") + theme_bw() + ggtitle("tamaño de muestra")
+i2 <- ggplot(mrppValues, aes(x=minCodesPerSite, y=effect)) + geom_line(size=1, col="grey50") + xlab("") + ylab("diferencia distancia") + theme_bw() + ggtitle("efecto de la provincia")
+i3 <- ggplot(mrppValues, aes(x=minCodesPerSite, y=pvalue)) + geom_line(size=1, col="grey50") + xlab("n. mínimo de sellos") + ylab("p-valor") + geom_hline(yintercept=0.05, col="grey50", size=1, linetype="twodash") +  theme_bw() + scale_y_continuous(limits=c(0,0.3)) + ggtitle("significación")
+
+svg("figura_2.svg", width=12, height=8)
+grid.arrange(i1,i2,i3,ncol=1)
 dev.off()
 
 # simplified

@@ -3,17 +3,16 @@ library(reshape2)
 library(ggplot2)
 library(vegan)
 library(gridExtra)
-library(ggdendro)
 library(plyr)
 library(scales)
 library(RColorBrewer)
 
 # all stamps
-minCodes <- 25
+minCodes <- 1
 
-presence <- read.csv("../09_presence/presenceFamily.csv", header=T, sep=';')
-counts <- read.csv("../07_countSample/countsFamily.csv", header=T, sep=";")
-locations <- read.csv("../04_locations/locationsFamily.csv", header=T, sep=";")
+presence <- read.csv("../09_presence/presenceFamilyDr.csv", header=T, sep=';')
+counts <- read.csv("../07_countSample/countsFamilyDr.csv", header=T, sep=";")
+locations <- read.csv("../04_locations/locationsFamilyDr.csv", header=T, sep=";")
 
 counts$province <- locations$province
 countsWithProvince <-  subset(counts, province != '')
@@ -50,6 +49,11 @@ dev.off()
 #ggplot(sitesSample, aes(x=province, y=numCodes)) + geom_jitter()
 #ggplot(sitesSample, aes(x=province, y=numCodes, fill=factor(idSite))) + geom_bar(stat="identity")
 
+#### INSTRUMENTA #####
+
+svg("figura_2.svg", width=8, height=7)    
+ggplot(counts, aes(x=numCodes)) + geom_histogram(binwidth=5, fill="grey70", col="grey30") +theme_bw() + ylab("n. de yacimientos") + xlab("volumen de sellos")
+dev.off()
 
 codeMrpp <- mrpp(presenceSample, sitesSample$province, distance="jaccard",weight.type=1)
 codeMrpp
@@ -94,27 +98,13 @@ summary(codes.md)
 
 
 codeCluster <- hclust(as.dist(codes.md), method="average")
-ggdendrogram(codeCluster)
 
 pdf("dendro.pdf")
 plot(codeCluster)
 dev.off()    
 
-
-svg("links.svg", width=10, height=8)    
-plot(codes.md)
-dev.off()
-
-plot(codeCluster)
-#dendroCluster <- as.dendrogram(codeCluster)
-#dCodes <- dendro_data(dendroCluster, type = "rectangle")
-#ggplot(segment(dCodes)) + geom_segment(aes(x = x, y = y, xend = xend, yend = yend)) +  coord_flip() +  scale_y_reverse(expand = c(0.2, 0))
-
-
 pdf("linksFamily.pdf", width=15, height=10)   
-    
 plot(codes.md)
-
 dev.off()
 
 
