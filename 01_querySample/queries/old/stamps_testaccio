@@ -1,6 +1,0 @@
-select distinct ?z ?t where { ?x rdf:type :Amphora . ?x :hasFindingPlace ?y . ?y :fallsWithin ?fw . ?fw dcterms:title ?pl . ?x :carries ?z . ?z :isTranscribedBy ?u . ?u :hasFullTranscription ?t . ?z rdf:type :Stamp . ?x :hasAmphoricType ?ty . ?ty dcterms:title ?type .
-FILTER (regex(?pl, "Monte Testaccio", "i") && (?type = "Dressel 20"))
-}
-order by ?z ?t
-
-
