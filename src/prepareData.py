@@ -95,8 +95,11 @@ def writeSites(sites, names, output):
     sitesFile = open(output, "w")
     # header
     sitesFile.write("id;province;name\n")
+
+
     for i in range(len(sites)):
-        sitesFile.write(str(i)+";"+sites[i]+";"+names[i]+"\n")
+        name = names[i].replace("'", "")
+        sitesFile.write(str(i)+";"+sites[i]+";"+name+"\n")
     sitesFile.close()    
 
 def writePresenceMatrix(stampsInLocs, codes, output):

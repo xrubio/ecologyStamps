@@ -41,6 +41,13 @@ pdf("dendrogram.pdf", width=12, height=12)
 plot(codes.md)
 dev.off()    
 
+############## with ggtree?
+library(ggtree)
+    
+codeCluster <- hclust(as.dist(codes.md), method="average")
+phyloStamp <- as.phylo(codeCluster)
+ggtree(phyloStamp)    
+
 
 ################# distance matrix
 
