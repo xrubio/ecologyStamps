@@ -41,6 +41,6 @@ g2 <- ggplot(multiMrpp, aes(x=minCodesPerSite, y=delta)) + geom_line(size=1, col
 g3 <- ggplot(multiMrpp, aes(x=minCodesPerSite, y=effect)) + geom_line(size=1, col="palegreen4", alpha=0.5) + xlab("Minimum Number of Codes per site)") + ylab("A") + theme_bw() + geom_point(col="palegreen4", size=2)+ scale_y_continuous(limits=c(0,0.03)) 
 
 pdf("selective.pdf", width=10, height=7)
-grid.arrange(g1,g2,g3,ncol=1)
+grid.arrange(g1,g3,ncol=1)
 dev.off()
 
