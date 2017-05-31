@@ -30,7 +30,7 @@ mostFrequent <- subset(mostFrequent, x!="Amphora incerta")
 mostFrequent <- subset(mostFrequent, x!="Tegula")
 
 pdf("types.pdf", width=8, height=9)
-ggplot(mostFrequent, aes(x=reorder(x, freq), y=freq)) + geom_bar(stat="identity") + theme_bw() + xlab("type") + ylab("number of stamps") + coord_flip()
+ggplot(mostFrequent, aes(x=reorder(x, freq), y=freq), fill="indianred2", col="indianred4") + geom_bar(stat="identity") + theme_bw() + xlab("type") + ylab("number of stamps") + coord_flip()
 dev.off()
 
 ########## FREQUENCY DISTRIBUTIONS

@@ -55,10 +55,11 @@ ggtree(codeCluster, branch.length="none") + geom_text2(aes(label=node), hjust=-.
 # 17 -> mediterranean, 22 -> limes
 
 
+pdf("cladogram.pdf", width=11, height=11)
 p1 <- ggtree(codeCluster, layout="circular", branch.length="none") + geom_hilight(node=17, fill="indianred2", extend=4, alpha=0.2) + geom_tiplab2() + geom_cladelabel(node=17, label="Mediterranean", offset=4, geom="label", fill="indianred2", alpha=0.4, offset.text=0.5, barsize=1, fontsize=5) + geom_cladelabel(node=22, label="Northern limes", offset=4, geom="label", fill="palegreen4", alpha=0.4, offset.text=3.5, barsize=1, fontsize=5) + geom_hilight(node=22, fill="palegreen4", extend=4, alpha=0.2) 
-p1 <- p1 + theme(panel.border = element_blank(),panel.background = element_blank(), plot.background = element_rect(fill = "transparent",colour = NA))
+#p1 <- p1 + theme(panel.border = element_blank(),panel.background = element_blank(), plot.background = element_rect(fill = "transparent",colour = NA))
 p1
-ggsave("dendrogram.png", bg="transparent", width=11, height=11)
+dev.off()
 
 
 
@@ -85,12 +86,11 @@ qn = quantile(meltedCodes$value, c(0.01, 0.99), na.rm = TRUE)
 qn01 <- rescale(c(qn, range(meltedCodes$value)))
 meltedCodes$Var2 <- with(meltedCodes,factor(Var2,levels = rev(sort(unique(Var2)))))
 
-#pdf("distances.pdf", width=17, height=9)    
+pdf("distances.pdf", width=12, height=9)    
 p1 <- ggplot(meltedCodes, aes(x=Var1, y=Var2, fill=value, label=round(value,2))) + geom_tile(color="white") + geom_text(col="grey30", fontface="bold")  + theme_bw()+ scale_fill_gradientn(colours=c("indianred2", "steelblue2", "white"), values = c(0, seq(qn01[1], qn01[2], length.out = 18), 1), na.value="transparent") + theme(panel.border=element_blank(), legend.position="none", axis.ticks.y=element_blank(), axis.ticks.x=element_blank(), axis.text.x=element_text(angle=45, hjust=0)) + xlab("") + ylab("") + scale_x_discrete(position="top")
-p1 <- p1 + theme(panel.border = element_blank(),panel.background = element_blank(), plot.background = element_rect(fill = "transparent",colour = NA))
+#p1 <- p1 + theme(panel.border = element_blank(),panel.background = element_blank(), plot.background = element_rect(fill = "transparent",colour = NA))
 p1
-ggsave("distances.png", bg="transparent", width=10, height=8)
-#dev.off()
+dev.off()
 
 ############### average distance 
 
