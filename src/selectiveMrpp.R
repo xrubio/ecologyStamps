@@ -31,16 +31,16 @@ multiMrpp <- rollingMrpp(sites, presence, 100)
 
 g1 <- ggplot(multiMrpp, aes(x=minCodesPerSite, y=numSites)) + geom_line(size=1, col="goldenrod1") + xlab("") + ylab("number of sites") + theme_bw()
 g2 <- ggplot(multiMrpp, aes(x=minCodesPerSite, y=delta)) + geom_line(size=1, col="indianred2")  + xlab("") + ylab(expression(delta)) + theme_bw() + scale_y_continuous(limits=c(0,1))
-g3 <- ggplot(multiMrpp, aes(x=minCodesPerSite, y=effect)) + geom_line(size=1, col="palegreen4") + xlab("Minimum Number of Codes per site)") + ylab("A") + theme_bw()
+g3 <- ggplot(multiMrpp, aes(x=minCodesPerSite, y=effect)) + geom_line(size=1, col="palegreen4") + xlab("Minimum Number of Codes per site") + ylab("A") + theme_bw()
 
 #pdf("multiMprrFamily.pdf", width=10, height=10)
 grid.arrange(g1,g2,g3,ncol=1, top="MRPP for all stamps")
 #dev.off()
 g1 <- ggplot(multiMrpp, aes(x=minCodesPerSite, y=numSites)) + geom_line(size=1, col="skyblue3", alpha=0.5) + xlab("") + ylab("number of sites") + theme_bw() + geom_point(col="skyblue3", size=2)
 g2 <- ggplot(multiMrpp, aes(x=minCodesPerSite, y=delta)) + geom_line(size=1, col="indianred2", alpha=0.5)  + xlab("") + ylab(expression(delta)) + theme_bw() + scale_y_continuous(limits=c(0,1)) + geom_point(col="indianred2", size=2)
-g3 <- ggplot(multiMrpp, aes(x=minCodesPerSite, y=effect)) + geom_line(size=1, col="palegreen4", alpha=0.5) + xlab("Minimum Number of Codes per site)") + ylab("A") + theme_bw() + geom_point(col="palegreen4", size=2)+ scale_y_continuous(limits=c(0,0.03)) 
+g3 <- ggplot(multiMrpp, aes(x=minCodesPerSite, y=effect)) + geom_line(size=1, col="palegreen4", alpha=0.5) + xlab("Minimum Number of Codes per site") + ylab("A") + theme_bw() + geom_point(col="palegreen4", size=2)+ scale_y_continuous(limits=c(0,0.03)) 
 
 pdf("selective.pdf", width=10, height=7)
-grid.arrange(g1,g3,ncol=1)
+grid.arrange(g1,g2,g3,ncol=1)
 dev.off()
 
