@@ -61,6 +61,80 @@ p1 <- ggtree(codeCluster, layout="circular", branch.length="none") + geom_hiligh
 p1
 dev.off()
 
+###########################
+# multiple MNCs
+
+allSites <- read.table("../data/sites.csv", header=T, sep=";")
+allPresence <-  as.matrix(read.csv("../data/presence.csv", row.names = 1, header=T, sep=';'))
+
+result1 <- filterByNumCodes(allSites, allPresence, 1)
+result1 <- filterByMultiSite(result1$sites, result1$presence)
+codes.md1 <- meandist(vegdist(result1$presence, method='jaccard'), result1$site$province)
+codeCluster1 <- nj(as.dist(codes.md1))
+
+result10 <- filterByNumCodes(allSites, allPresence, 10)
+result10 <- filterByMultiSite(result10$sites, result10$presence)
+codes.md10 <- meandist(vegdist(result10$presence, method='jaccard'), result10$site$province)
+codeCluster10 <- nj(as.dist(codes.md10))
+
+result20 <- filterByNumCodes(allSites, allPresence, 20)
+result20 <- filterByMultiSite(result20$sites, result10$presence)
+codes.md20 <- meandist(vegdist(result20$presence, method='jaccard'), result20$site$province)
+codeCluster20 <- nj(as.dist(codes.md20))
+
+result30 <- filterByNumCodes(allSites, allPresence, 30)
+result30 <- filterByMultiSite(result30$sites, result30$presence)
+codes.md30 <- meandist(vegdist(result30$presence, method='jaccard'), result30$site$province)
+codeCluster30 <- nj(as.dist(codes.md30))
+
+result50 <- filterByNumCodes(allSites, allPresence, 50)
+result50 <- filterByMultiSite(result50$sites, result50$presence)
+codes.md50 <- meandist(vegdist(result50$presence, method='jaccard'), result50$site$province)
+codeCluster50 <- nj(as.dist(codes.md50))
+
+result75 <- filterByNumCodes(allSites, allPresence, 75)
+result75 <- filterByMultiSite(result75$sites, result75$presence)
+codes.md75 <- meandist(vegdist(result75$presence, method='jaccard'), result75$site$province)
+codeCluster75 <- nj(as.dist(codes.md75))
+
+
+g1 <- ggtree(codeCluster1, layout="circular", branch.length="none") + geom_hilight(node=1, fill="indianred2", extend=7, alpha=0.0) + geom_tiplab2(size=3) + ggtitle("MNC=1")
+g10 <- ggtree(codeCluster10, layout="circular", branch.length="none") + geom_hilight(node=1, fill="indianred2", extend=7, alpha=0.0)  + geom_tiplab2(size=3) + ggtitle("MNC=10")
+g20 <- ggtree(codeCluster20, layout="circular", branch.length="none") + geom_hilight(node=1, fill="indianred2", extend=7, alpha=0.0)  + geom_tiplab2(size=3) + ggtitle("MNC=20")
+g30 <- ggtree(codeCluster30, layout="circular", branch.length="none") + geom_hilight(node=1, fill="indianred2", extend=7, alpha=0.0)  + geom_tiplab2(size=3) + ggtitle("MNC=30")
+g50 <- ggtree(codeCluster50, layout="circular", branch.length="none") + geom_hilight(node=1, fill="indianred2", extend=7, alpha=0.0)  + geom_tiplab2(size=3) + ggtitle("MNC=50")
+g75 <- ggtree(codeCluster75, layout="circular", branch.length="none") + geom_hilight(node=1, fill="indianred2", extend=7, alpha=0.0)  + geom_tiplab2(size=3) + ggtitle("MNC=75")
+
+pdf("mncs.pdf", width=12, height=9)
+grid.arrange(g1, g10, g20, g30, g50, g75, ncol=3)
+dev.off()
+
+#################################
+# Dr 20, not Dr 20
+
+allSitesDr20 <- read.table("../data/sitesDr20.csv", header=T, sep=";")
+allPresenceDr20 <-  as.matrix(read.csv("../data/presenceDr20.csv", row.names = 1, header=T, sep=';'))
+
+resultDr20 <- filterByNumCodes(allSitesDr20, allPresenceDr20, 20)
+resultDr20 <- filterByMultiSite(resultDr20$sites, resultDr20$presence)
+codes.mdDr20 <- meandist(vegdist(resultDr20$presence, method='jaccard'), resultDr20$site$province)
+codeClusterDr20 <- nj(as.dist(codes.mdDr20))
+
+allSitesNotDr20 <- read.table("../data/sitesNotDr20.csv", header=T, sep=";")
+allPresenceNotDr20 <-  as.matrix(read.csv("../data/presenceNotDr20.csv", row.names = 1, header=T, sep=';'))
+
+resultNotDr20 <- filterByNumCodes(allSitesNotDr20, allPresenceNotDr20, 20)
+resultNotDr20 <- filterByMultiSite(resultNotDr20$sites, resultNotDr20$presence)
+codes.mdNotDr20 <- meandist(vegdist(resultNotDr20$presence, method='jaccard'), resultNotDr20$site$province)
+codeClusterNotDr20 <- nj(as.dist(codes.mdNotDr20))
+
+gDr20 <- ggtree(codeClusterDr20, layout="circular", branch.length="none") + geom_hilight(node=1, fill="indianred2", extend=5, alpha=0.0) + geom_tiplab2(size=3) + ggtitle("Dressel 20")
+gNotDr20 <- ggtree(codeClusterNotDr20, layout="circular", branch.length="none") + geom_hilight(node=1, fill="indianred2", extend=5, alpha=0.0) + geom_tiplab2(size=3) + ggtitle("Not Dressel 20")
+
+pdf("amphType.pdf", width=9, height=4)
+grid.arrange(gDr20, gNotDr20, ncol=2)
+dev.off()
+
 
 
 ################# distance matrix

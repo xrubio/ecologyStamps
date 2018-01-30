@@ -20,7 +20,8 @@
 
 import csv 
 
-def extractSites(stampsFilename, amphType = None):
+# if include is true then only amphorae of amhhType are included (if false then they are excluded)
+def extractSites(stampsFilename, amphType = None, include = True):
     stampsFile = open(stampsFilename)
     # ids is name of site and sites is province
     ids = []
@@ -34,8 +35,11 @@ def extractSites(stampsFilename, amphType = None):
         dbId = stamp[6]
         typology = stamp[5]
 
-        if amphType and amphType != typology:
-            continue
+        if amphType:
+            if include == True and amphType != typology:
+                continue
+            if include == False and amphType == typology:
+                continue
 
         province = stamp[8]
         if not province:
@@ -45,7 +49,10 @@ def extractSites(stampsFilename, amphType = None):
             ids.append(dbId)
             sites.append(province)
     if amphType:
-        print("parsed:",len(sites),"sites of type",amphType)
+        if include:
+            print("parsed:",len(sites),"sites of type",amphType)
+        else:
+            print("parsed:",len(sites),"sites excluding type",amphType)
     else:
         print("parsed:",len(sites),"sites of all amphorae types")
     stampsFile.close()
@@ -132,6 +139,29 @@ def main():
 
     writeSites(sites, names, outputSites)
     writePresenceMatrix(stampsInLocs, codes, outputPresence)
+
+
+    # Dressel 20
+    outputSites = "../data/sitesDr20.csv"
+    outputPresence = "../data/presenceDr20.csv"
+
+    sites, names = extractSites(rawData, "Dressel 20", True)
+    stampsInLocs,codes = extractStamps(rawData)
+
+    writeSites(sites, names, outputSites)
+    writePresenceMatrix(stampsInLocs, codes, outputPresence)
+
+    # Not Dressel 20
+    outputSites = "../data/sitesNotDr20.csv"
+    outputPresence = "../data/presenceNotDr20.csv"
+
+    sites, names = extractSites(rawData, "Dressel 20", False)
+    stampsInLocs,codes = extractStamps(rawData)
+
+    writeSites(sites, names, outputSites)
+    writePresenceMatrix(stampsInLocs, codes, outputPresence)
+
+
 
 if __name__ == "__main__":
     main()
