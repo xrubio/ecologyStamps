@@ -160,11 +160,11 @@ qn = quantile(meltedCodes$value, c(0.01, 0.99), na.rm = TRUE)
 qn01 <- rescale(c(qn, range(meltedCodes$value)))
 meltedCodes$Var2 <- with(meltedCodes,factor(Var2,levels = rev(sort(unique(Var2)))))
 
-pdf("distances.pdf", width=12, height=9)    
-p1 <- ggplot(meltedCodes, aes(x=Var1, y=Var2, fill=value, label=round(value,2))) + geom_tile(color="white") + geom_text(col="grey30", fontface="bold")  + theme_bw()+ scale_fill_gradientn(colours=c("indianred2", "steelblue2", "white"), values = c(0, seq(qn01[1], qn01[2], length.out = 18), 1), na.value="transparent") + theme(panel.border=element_blank(), legend.position="none", axis.ticks.y=element_blank(), axis.ticks.x=element_blank(), axis.text.x=element_text(angle=45, hjust=0)) + xlab("") + ylab("") + scale_x_discrete(position="top")
-#p1 <- p1 + theme(panel.border = element_blank(),panel.background = element_blank(), plot.background = element_rect(fill = "transparent",colour = NA))
-p1
+pdf("distances.pdf", width=11, height=7)    
+ggplot(meltedCodes, aes(x=Var1, y=Var2, fill=value, label=round(value,2))) + geom_raster()+ geom_text(col="grey20")  + theme_bw() + scale_fill_gradientn(colours=c("indianred2", "steelblue2", "cornsilk"), values = c(0, seq(qn01[1], qn01[2], length.out = 18), 1.01), breaks=c(0.925,0.94,0.96,0.98,0.999), labels=c(0.92,0.94,0.96,0.98,1), limits=c(0.922, 1), na.value="transparent") + theme(panel.border=element_blank(), legend.position = "right", legend.direction="vertical", legend.title=element_blank(), legend.key.width=unit(0.02, "npc"), legend.key.height=unit(0.1, "npc"), axis.ticks.y=element_blank(), axis.ticks.x=element_blank(), axis.text.x=element_text(angle=45, hjust=0)) + xlab("") + ylab("") + scale_x_discrete(position="top")
 dev.off()
+
+
 
 ############### average distance 
 
